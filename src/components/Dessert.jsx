@@ -5,12 +5,12 @@ const Dessert = ({ name, category, price, images, onAddToCart, inCart }) => {
 
   return (
     <div className="dessert-card">
-      <img src={images.thumbnail} alt={name} />
+      <img src={images.thumbnail} alt={name} className="dessert-image" />
       <h3 className="dessert-name">{name}</h3>
       <p className="dessert-category">{category}</p>
       <p className="dessert-price">${price.toFixed(2)}</p>
       <button
-        className={`add-to-cart-btn ${inCart ? "in-cart-btn" : ""}`}
+        className={`add-to-cart-btn ${inCart ? "in-cart" : ""}`}
         onClick={handleAddToCart}
       >
         {inCart ? "In Cart" : "Add to Cart"}

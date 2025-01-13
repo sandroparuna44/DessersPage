@@ -11,21 +11,34 @@ const Cart = ({ cartItems, onRemoveItem, onIncrease, onDecrease }) => {
     <div className="cart-container">
       <h2 className="cart-title">Your Cart ({cartItems.length})</h2>
       {cartItems.length === 0 ? (
-        <p>Your cart is empty.</p>
+        <div className="empty-cart">
+          <p>Your cart is empty.</p>
+        </div>
       ) : (
         <div className="cart-items">
           {cartItems.map((item) => (
             <div key={item.name} className="cart-item">
-              <div className="item-info">
+              <img
+                src={item.image}
+                alt={item.name}
+                className="cart-item-image"
+              />
+              <div className="item-details">
                 <h4 className="item-name">{item.name}</h4>
                 <p className="item-price">${item.price.toFixed(2)}</p>
               </div>
               <div className="item-quantity">
-                <button onClick={() => onDecrease(item.name)}>
+                <button
+                  className="quantity-btn"
+                  onClick={() => onDecrease(item.name)}
+                >
                   <DecrementQuantity />
                 </button>
-                <span>{item.quantity}</span>
-                <button onClick={() => onIncrease(item.name)}>
+                <span className="quantity-value">{item.quantity}</span>
+                <button
+                  className="quantity-btn"
+                  onClick={() => onIncrease(item.name)}
+                >
                   <IncrementQuantity />
                 </button>
               </div>
@@ -40,9 +53,9 @@ const Cart = ({ cartItems, onRemoveItem, onIncrease, onDecrease }) => {
         </div>
       )}
       {cartItems.length > 0 && (
-        <div className="total">
-          <p>
-            <strong>Order Total:</strong> ${total.toFixed(2)}
+        <div className="cart-footer">
+          <p className="total-price">
+            <strong>Total:</strong> ${total.toFixed(2)}
           </p>
           <button className="confirm-order-btn">Confirm Order</button>
         </div>

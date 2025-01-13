@@ -1,71 +1,103 @@
 import React, { useState } from "react";
-import Dessert from "./components/Dessert";
-import Cart from "./components/Cart";
-import data from "./data/data.json";
+import Cart from "./Cart";
+import Dessert from "./Desserts";
+import "./styles.css";
 
 const App = () => {
-  const [cart, setCart] = useState([]);
+  const [cartItems, setCartItems] = useState([]);
+  const [desserts] = useState([
+    {
+      name: "Chocolate Cake",
+      category: "Cake",
+      price: 4.99,
+      image: "https://via.placeholder.com/100",
+    },
+    {
+      name: "Strawberry Tart",
+      category: "Tart",
+      price: 3.49,
+      image: "https://via.placeholder.com/100",
+    },
+    {
+      name: "Lemon Pie",
+      category: "Pie",
+      price: 5.29,
+      image: "https://via.placeholder.com/100",
+    },
+  ]);
 
-  const addToCart = (dessertName) => {
-    const dessertInCart = cart.find((item) => item.name === dessertName);
-    if (dessertInCart) {
-      setCart(
-        cart.map((item) =>
-          item.name === dessertName
+  const handleAddToCart = (name) => {
+    const dessert = desserts.find((d) => d.name === name);
+    const existingItem = cartItems.find((item) => item.name === name);
+
+    if (existingItem) {
+      setCartItems(
+        cartItems.map((item) =>
+          item.name === name
             ? { ...item, quantity: item.quantity + 1 }
             : item
         )
       );
     } else {
-      const newDessert = data.find((item) => item.name === dessertName);
-      setCart([...cart, { ...newDessert, quantity: 1 }]);
+      setCartItems([...cartItems, { ...dessert, quantity: 1 }]);
     }
   };
 
-  const removeFromCart = (dessertName) => {
-    setCart(cart.filter((item) => item.name !== dessertName));
+  const handleRemoveItem = (name) => {
+    setCartItems(cartItems.filter((item) => item.name !== name));
   };
 
-  const increaseQuantity = (dessertName) => {
-    setCart(
-      cart.map((item) =>
-        item.name === dessertName
-          ? { ...item, quantity: item.quantity + 1 }
-          : item
+  const handleIncrease = (name) => {
+    setCartItems(
+      cartItems.map((item) =>
+        item.name === name ? { ...item, quantity: item.quantity + 1 } : item
       )
     );
   };
 
-  const decreaseQuantity = (dessertName) => {
-    setCart(
-      cart.map((item) =>
-        item.name === dessertName && item.quantity > 1
-          ? { ...item, quantity: item.quantity - 1 }
-          : item
-      )
+  const handleDecrease = (name) => {
+    setCartItems(
+      cartItems
+        .map((item) =>
+          item.name === name
+            ? { ...item, quantity: item.quantity - 1 }
+            : item
+        )
+        .filter((item) => item.quantity > 0)
     );
   };
 
   return (
     <div className="app-container">
-      <div className="desserts-container">
-        {data.map((dessert) => (
-          <Dessert
-            key={dessert.name}
-            {...dessert}
-            onAddToCart={addToCart}
-            inCart={cart.some((item) => item.name === dessert.name)}
+      <header className="app-header">
+        <h1>Delicious Desserts</h1>
+      </header>
+      <main className="app-main">
+        <section className="desserts-section">
+          <h2>Our Desserts</h2>
+          <div className="desserts-grid">
+            {desserts.map((dessert) => (
+              <Dessert
+                key={dessert.name}
+                name={dessert.name}
+                category={dessert.category}
+                price={dessert.price}
+                images={{ thumbnail: dessert.image }}
+                onAddToCart={handleAddToCart}
+                inCart={cartItems.some((item) => item.name === dessert.name)}
+              />
+            ))}
+          </div>
+        </section>
+        <section className="cart-section">
+          <Cart
+            cartItems={cartItems}
+            onRemoveItem={handleRemoveItem}
+            onIncrease={handleIncrease}
+            onDecrease={handleDecrease}
           />
-        ))}
-      </div>
-      <div className="cart-container">
-        <Cart
-          cartItems={cart}
-          onRemoveItem={removeFromCart}
-          onIncrease={increaseQuantity}
-          onDecrease={decreaseQuantity}
-        />
-      </div>
+        </section>
+      </main>
     </div>
   );
 };
