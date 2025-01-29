@@ -1,22 +1,23 @@
 import React from "react";
 
-const Dessert = ({ name, category, price, images, onAddToCart, inCart }) => {
-  const handleAddToCart = () => onAddToCart(name);
-
+const DessertItem = ({ name, category, price, images, onAddToCart }) => {
   return (
-    <div className="dessert-card">
-      <img src={images.thumbnail} alt={name} className="dessert-image" />
-      <h3 className="dessert-name">{name}</h3>
-      <p className="dessert-category">{category}</p>
-      <p className="dessert-price">${price.toFixed(2)}</p>
-      <button
-        className={`add-to-cart-btn ${inCart ? "in-cart" : ""}`}
-        onClick={handleAddToCart}
-      >
-        {inCart ? "In Cart" : "Add to Cart"}
-      </button>
+    <div className="dessert-item">
+      <img
+         src={ "/images/" + images.thumbnail}
+        alt={name}
+        className="dessert-item-image"
+      />
+        <button onClick={() => onAddToCart(name)} className="add-to-cart-btn">
+          Add to Cart
+        </button>
+      <div className="dessert-item-details">
+        <h4 className="dessert-name">{name}</h4>
+        <p className="dessert-category">{category}</p>
+        <p className="dessert-price">${price.toFixed(2)}</p>
+      </div>
     </div>
   );
 };
 
-export default Dessert;
+export default DessertItem;

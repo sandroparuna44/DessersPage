@@ -12,7 +12,7 @@ const Cart = ({ cartItems, onRemoveItem, onIncrease, onDecrease }) => {
       <h2 className="cart-title">Your Cart ({cartItems.length})</h2>
       {cartItems.length === 0 ? (
         <div className="empty-cart">
-          <p>Your cart is empty.</p>
+          <p>Your added items will appear here</p>
         </div>
       ) : (
         <div className="cart-items">

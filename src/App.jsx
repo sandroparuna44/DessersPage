@@ -1,33 +1,15 @@
 import React, { useState } from "react";
-import Cart from "./Cart";
-import Dessert from "./Desserts";
-import "./styles.css";
+import Cart from "./components/Cart";
+import DessertItem from "./components/Dessert";
+import data from "./data.json"; 
+import "./App.css";
 
 const App = () => {
   const [cartItems, setCartItems] = useState([]);
-  const [desserts] = useState([
-    {
-      name: "Chocolate Cake",
-      category: "Cake",
-      price: 4.99,
-      image: "https://via.placeholder.com/100",
-    },
-    {
-      name: "Strawberry Tart",
-      category: "Tart",
-      price: 3.49,
-      image: "https://via.placeholder.com/100",
-    },
-    {
-      name: "Lemon Pie",
-      category: "Pie",
-      price: 5.29,
-      image: "https://via.placeholder.com/100",
-    },
-  ]);
+
 
   const handleAddToCart = (name) => {
-    const dessert = desserts.find((d) => d.name === name);
+    const dessert = data.find((d) => d.name === name);
     const existingItem = cartItems.find((item) => item.name === name);
 
     if (existingItem) {
@@ -43,6 +25,7 @@ const App = () => {
     }
   };
 
+
   const handleRemoveItem = (name) => {
     setCartItems(cartItems.filter((item) => item.name !== name));
   };
@@ -54,6 +37,7 @@ const App = () => {
       )
     );
   };
+
 
   const handleDecrease = (name) => {
     setCartItems(
@@ -76,15 +60,14 @@ const App = () => {
         <section className="desserts-section">
           <h2>Our Desserts</h2>
           <div className="desserts-grid">
-            {desserts.map((dessert) => (
-              <Dessert
+            {data.map((dessert) => (
+              <DessertItem
                 key={dessert.name}
                 name={dessert.name}
                 category={dessert.category}
                 price={dessert.price}
-                images={{ thumbnail: dessert.image }}
+                images={dessert.images}
                 onAddToCart={handleAddToCart}
-                inCart={cartItems.some((item) => item.name === dessert.name)}
               />
             ))}
           </div>
